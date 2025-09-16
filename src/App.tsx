@@ -12,6 +12,7 @@ import { CreateEditPage } from "./routes/create-edit-page";
 import { MockLoadPage } from "./routes/mock-load-page";
 import { MockInterviewPage } from "./routes/mock-interview-page";
 import { Feedback } from "./routes/feedback";
+import GroupDiscussionPage from './routes/GroupDiscussionPage'; 
 
 const App = () => {
   return (
@@ -19,28 +20,34 @@ const App = () => {
       <Routes>
         {/* public routes */}
         <Route element={<PublicLayout/>}>
-        <Route index element={<HomePage />}/>
+          <Route index element={<HomePage />}/>
         </Route>
 
         {/* Authentication layout */}
         <Route element={<AuthenticationLayout/>}>
-        <Route path="/signin/*" element={<SignInPage/>}/>
-        <Route path="/signup/*" element={<SignUpPage/>}/>
+          <Route path="/signin/*" element={<SignInPage/>}/>
+          <Route path="/signup/*" element={<SignUpPage/>}/>
         </Route>
 
         {/* protected routes */}
         <Route element={<ProtectRoutes><MainLayout/></ProtectRoutes>}>
         
-        {/* add all the protect routes */}
-        <Route element={<Generate/>} path="/generate">
-          <Route index element={<Dashboard />}/>
-          <Route path=":interviewId" element={<CreateEditPage/>}/>
-          <Route path="interview/:interviewId" element={<MockLoadPage/>}/>
-          <Route path="interview/:interviewId/start"
-            element={<MockInterviewPage/>}
-          />
-          <Route path="feedback/:interviewId" element={<Feedback/>}/>
-        </Route>
+          {/* add all the protect routes */}
+          <Route element={<Generate/>} path="/generate">
+            <Route index element={<Dashboard />}/>
+            <Route path=":interviewId" element={<CreateEditPage/>}/>
+            <Route path="interview/:interviewId" element={<MockLoadPage/>}/>
+            <Route 
+              path="interview/:interviewId/start"
+              element={<MockInterviewPage/>}
+            />
+            <Route path="feedback/:interviewId" element={<Feedback/>}/>
+            {/* The problematic line was here. It has been moved out. */}
+          </Route>
+
+          {/* MOVED HERE: This makes it a separate page at the URL /group-discussion */}
+          <Route path="/group-discussion" element={<GroupDiscussionPage />} />
+          
         </Route>
       </Routes>
     </Router>
